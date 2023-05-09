@@ -4,7 +4,7 @@ import books from "./models/Book.js";
 import routes from "./routes/index.js";
 
 db.once("open", () => {
-  console.log("Your db connection was successfully");
+  console.log("Your connection with mongodb atlas was successfully");
 });
 
 db.on("error", console.log.bind(console, "connection error"));
@@ -15,19 +15,6 @@ app.use(express.json());
 
 routes(app);
 
-// CRUD: Search by id -> postman
-app.get("/books/:id", (req, res) => {
-  let index = searchBook(req.params.id);
-  res.json(books[index]);
-});
-
-// PUT
-// CRUD: Update -> postman
-app.put("/books/:id", (req, res) => {
-  let index = searchBook(req.params.id);
-  books[index].title = req.body.title;
-  res.json(books);
-});
 
 // DELETE
 // CRUD: Delete -> postman
