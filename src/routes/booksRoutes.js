@@ -8,6 +8,7 @@ router
   .get("/books", BookController.getBooks)
   .get("/books/:id", BookController.getBookById)
   .post("/books", BookController.createNewBook)
-  .put("/books/:id", BookController.updateBook);
+  .put("/books/:id", BookController.updateBook)
+  .delete("/books/:id", BookController.deleteBook);
 
 export default router;

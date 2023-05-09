@@ -11,7 +11,7 @@ class BookController {
     }
   };
 
-  // list by ID books
+  // list books by ID
   static getBookById = async (req, res) => {
     const id = req.params.id;
     try {
@@ -46,6 +46,19 @@ class BookController {
     } catch (err) {
       res.status(500).send({
         message: `${err} Book validation failed. Please check the required params.`,
+      });
+    }
+  };
+
+  // delete book
+  static deleteBook = async (req, res) => {
+    try {
+      const id = req.params.id;
+      await books.findByIdAndDelete(id);
+      res.status(201).send({ message: `Book deleted.` });
+    } catch (err) {
+      res.status(500).send({
+        message: `${err} Book destruction failed. Please check the required params.`,
       });
     }
   };
