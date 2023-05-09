@@ -10,6 +10,17 @@ class BookController {
       res.status(500).json(err);
     }
   };
+
+  // register new book
+  static createNewBook = async (req, res) => {
+    try {
+      let book = await new books(req.body);
+      book.save();
+      res.status(201).send(book.toJSON());
+    } catch (err) {
+      res.status(500).send({ message: `${err} Something went wrong.` });
+    }
+  };
 }
 
 export default BookController;

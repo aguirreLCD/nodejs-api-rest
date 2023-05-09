@@ -21,13 +21,6 @@ app.get("/books/:id", (req, res) => {
   res.json(books[index]);
 });
 
-// POST
-// CRUD: Create -> postman
-app.post("/books", (req, res) => {
-  books.push(req.body);
-  res.status(201).send("Created book. Success! Yay!");
-});
-
 // PUT
 // CRUD: Update -> postman
 app.put("/books/:id", (req, res) => {
