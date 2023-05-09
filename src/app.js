@@ -1,6 +1,7 @@
 import express from "express";
 import db from "./config/dbConnect.js";
 import books from "./models/Book.js";
+import routes from "./routes/index.js";
 
 db.once("open", () => {
   console.log("Your db connection was successfully");
@@ -10,40 +11,9 @@ db.on("error", console.log.bind(console, "connection error"));
 
 const app = express();
 
-// data coming from postman,
-// .json() = Returns middleware that only parses json
-// and only looks at requests where the Content-Type header matches the type option
 app.use(express.json());
 
-// const books = [
-//   {
-//     id: 1,
-//     title: "First book",
-//   },
-//   {
-//     id: 2,
-//     title: "Second book",
-//   },
-//   {
-//     id: 3,
-//     title: "Third book",
-//   },
-// ];
-
-app.get("/", (req, res) => {
-  res.status(200).send("Nodejs course");
-});
-
-// GET
-// CRUD: Read
-app.get("/books", async (req, res) => {
-  try {
-    const booksResponse = await books.find();
-    res.status(200).json(booksResponse);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+routes(app);
 
 // CRUD: Search by id -> postman
 app.get("/books/:id", (req, res) => {
