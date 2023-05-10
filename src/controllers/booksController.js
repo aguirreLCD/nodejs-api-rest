@@ -4,7 +4,7 @@ class BookController {
   // list books
   static getBooks = async (req, res) => {
     try {
-      const booksResponse = await books.find();
+      const booksResponse = await books.find().populate("author").exec();
       res.status(200).json(booksResponse);
     } catch (err) {
       res.status(500).json(err);
@@ -15,7 +15,10 @@ class BookController {
   static getBookById = async (req, res) => {
     const id = req.params.id;
     try {
-      let searchedBook = await books.findById(id);
+      let searchedBook = await books
+        .findById(id)
+        .populate("author", "name")
+        .exec();
       res.status(201).send(searchedBook.toJSON());
     } catch (err) {
       res.status(400).send({
