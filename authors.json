@@ -28,5 +28,15 @@
     "_id": "645b72274245c2900c28d710",
     "name": "Jenny Odell",
     "language": "English"
+  },
+  {
+    "_id": "645b7b94fc723ad15dc7c352",
+    "name": "Paul Lafargue",
+    "language": "French"
+  },
+  {
+    "_id": "645b7b99fc723ad15dc7c354",
+    "name": "Paul Lafargue",
+    "language": "English"
   }
 ]

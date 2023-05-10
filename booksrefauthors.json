@@ -69,5 +69,17 @@
         "printLength": 544,
         "publisher": "Crown",
         "__v": 0
+    },
+    {
+        "_id": "645b7c06fc723ad15dc7c356",
+        "title": "The Right to Be Lazy",
+        "author": {
+            "_id": "645b7b99fc723ad15dc7c354",
+            "name": "Paul Lafargue",
+            "language": "English"
+        },
+        "printLength": 136,
+        "publisher": "NYRB Classics",
+        "__v": 0
     }
 ]

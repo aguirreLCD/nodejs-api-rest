@@ -65,6 +65,23 @@ class BookController {
       });
     }
   };
+
+  // list books by Publisher
+  static getBookByPublisher = async (req, res) => {
+    // const publisher = req.params.publisher;
+    const publisher = req.query;
+    console.log("query", req.query);
+    console.log("publisher", publisher);
+
+    try {
+      let booksByPublisher = await books.find(publisher).populate("author");
+      res.status(200).json(booksByPublisher);
+    } catch (err) {
+      res.status(400).send({
+        message: `${err} Publisher identifier failed. Please check for valid id.`,
+      });
+    }
+  };
 }
 
 export default BookController;
