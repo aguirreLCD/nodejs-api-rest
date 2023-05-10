@@ -7,16 +7,16 @@ class AuthorController {
       const authorsResponse = await authors.find();
       res.status(200).json(authorsResponse);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json({ message: `${err} Server Error` });
     }
   };
 
   // list author by ID
   static getAuthorkById = async (req, res) => {
-    const id = req.params.id;
     try {
-      let searchedAuthor = await authors.findById(id);
-      res.status(201).send(searchedAuthor.toJSON());
+      const id = req.params.id;
+      const searchedAuthor = await authors.findById(id);
+      res.status(200).send(searchedAuthor);
     } catch (err) {
       res.status(400).send({
         message: `${err} Author identifier failed. Please check for valid id.`,
@@ -27,9 +27,9 @@ class AuthorController {
   // register new author
   static createNewAuthor = async (req, res) => {
     try {
-      let author = await new authors(req.body);
-      author.save();
-      res.status(201).send(author.toJSON());
+      let author = new authors(req.body);
+      const newAuthor = await author.save();
+      res.status(201).send(newAuthor.toJSON());
     } catch (err) {
       res.status(500).send({
         message: `${err} Something went wrong. Author validation failed. Please check the required params.`,
@@ -42,10 +42,10 @@ class AuthorController {
     try {
       const id = req.params.id;
       await authors.findByIdAndUpdate(id, { $set: req.body });
-      res.status(201).send({ message: `author ${id} updated.` });
+      res.status(201).send({ message: `Author ${id} updated.` });
     } catch (err) {
       res.status(500).send({
-        message: `${err} author validation failed. Please check the required params.`,
+        message: `${err} Author validation failed. Please check the required params.`,
       });
     }
   };
@@ -55,10 +55,10 @@ class AuthorController {
     try {
       const id = req.params.id;
       await authors.findByIdAndDelete(id);
-      res.status(201).send({ message: `author deleted.` });
+      res.status(201).send({ message: `Author deleted.` });
     } catch (err) {
       res.status(500).send({
-        message: `${err} author destruction failed. Please check the required params.`,
+        message: `${err} Author destruction failed. Please check the required params.`,
       });
     }
   };

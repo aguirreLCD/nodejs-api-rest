@@ -15,11 +15,11 @@ class BookController {
   static getBookById = async (req, res) => {
     const id = req.params.id;
     try {
-      let searchedBook = await books
+      const searchedBook = await books
         .findById(id)
         .populate("author", "name")
         .exec();
-      res.status(201).send(searchedBook.toJSON());
+      res.status(201).send(searchedBook);
     } catch (err) {
       res.status(400).send({
         message: `${err} Book identifier failed. Please check for valid id.`,
@@ -30,12 +30,12 @@ class BookController {
   // register new book
   static createNewBook = async (req, res) => {
     try {
-      let book = await new books(req.body);
-      book.save();
-      res.status(201).send(book.toJSON());
+      let book = new books(req.body);
+      const newBook = await book.save();
+      res.status(201).send(newBook.toJSON());
     } catch (err) {
       res.status(500).send({
-        message: `${err} Something went wrong. Book validation failed. Please check the required params.`,
+        message: `${err} Something went wrong. Book creation failed. Please check the required params.`,
       });
     }
   };
@@ -58,7 +58,7 @@ class BookController {
     try {
       const id = req.params.id;
       await books.findByIdAndDelete(id);
-      res.status(201).send({ message: `Book deleted.` });
+      res.status(200).send({ message: `Book deleted.` });
     } catch (err) {
       res.status(500).send({
         message: `${err} Book destruction failed. Please check the required params.`,
@@ -68,22 +68,18 @@ class BookController {
 
   // list books by Publisher
   static getBookByPublisher = async (req, res) => {
-    // const publisher = req.params.publisher;
-    const publisher = req.query;
-    console.log("query", req.query);
-    console.log("publisher", publisher);
-
     try {
-      let booksByPublisher = await books.find(publisher).populate("author");
-      res.status(200).json(booksByPublisher);
+      const publisher = req.query;
+      console.log("query", req.query);
+      console.log("publisher", publisher);
+      const booksByPublisher = await books.find(publisher).populate("author");
+      res.status(200).send(booksByPublisher);
     } catch (err) {
       res.status(400).send({
         message: `${err} Publisher identifier failed. Please check for valid id.`,
       });
     }
   };
-
-  
 }
 
 export default BookController;
