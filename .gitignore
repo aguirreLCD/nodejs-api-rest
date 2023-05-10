@@ -1,7 +1,5 @@
-
-books.json
-booksrefauthors.json
-authors.json
+/tests
+tests/*
 
 .env
 *.env
@@ -21,4 +19,6 @@ node_modules/
 serverexpress.js
 
 server-http.js
+
+
 
