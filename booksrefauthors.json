@@ -1,85 +1,97 @@
 [
-    {
-        "_id": "64537b077903b39b36b79171",
-        "title": "How to do nothing",
-        "author": {
-            "_id": "645b72274245c2900c28d710",
-            "name": "Jenny Odell",
-            "language": "English"
-        },
-        "printLength": 256,
-        "publisher": "Melville House"
+  {
+    "_id": "64537b077903b39b36b79171",
+    "title": "How to do nothing",
+    "author": {
+      "_id": "645b72274245c2900c28d710",
+      "name": "Jenny Odell",
+      "language": "English"
     },
-    {
-        "_id": "645a4909e7aab5b94793e700",
-        "title": "The Happiness Trap",
-        "author": {
-            "_id": "645b721c4245c2900c28d70e",
-            "name": "Russ Harris",
-            "language": "English"
-        },
-        "printLength": 240,
-        "publisher": "Trumpeter",
-        "__v": 0
+    "printLength": 256,
+    "publisher": "Melville House"
+  },
+  {
+    "_id": "645a4909e7aab5b94793e700",
+    "title": "The Happiness Trap",
+    "author": {
+      "_id": "645b721c4245c2900c28d70e",
+      "name": "Russ Harris",
+      "language": "English"
     },
-    {
-        "_id": "645a55826493c9d1d28e870a",
-        "title": "Mithycal Man-Month",
-        "author": {
-            "_id": "645b72104245c2900c28d70c",
-            "name": "Frederick Brooks Jr",
-            "language": "English"
-        },
-        "printLength": 336,
-        "publisher": "Addison-Wesley Professional",
-        "__v": 0
+    "printLength": 240,
+    "publisher": "Trumpeter",
+    "__v": 0
+  },
+  {
+    "_id": "645a55826493c9d1d28e870a",
+    "title": "Mithycal Man-Month",
+    "author": {
+      "_id": "645b72104245c2900c28d70c",
+      "name": "Frederick Brooks Jr",
+      "language": "English"
     },
-    {
-        "_id": "645b6444b4152c7d436ff797",
-        "title": "Reader, Come Home: The Reading Brain in a Digital World",
-        "author": {
-            "_id": "645b71634245c2900c28d702",
-            "name": "Maryanne Wolf",
-            "language": "English"
-        },
-        "printLength": 277,
-        "publisher": "Harper",
-        "__v": 0
+    "printLength": 336,
+    "publisher": "Addison-Wesley Professional",
+    "__v": 0
+  },
+  {
+    "_id": "645b6444b4152c7d436ff797",
+    "title": "Reader, Come Home: The Reading Brain in a Digital World",
+    "author": {
+      "_id": "645b71634245c2900c28d702",
+      "name": "Maryanne Wolf",
+      "language": "English"
     },
-    {
-        "_id": "645b64c3b4152c7d436ff799",
-        "title": "Lector, vuelve a casa: Como afecta a nuestro cerebro la lectura en pantallas",
-        "author": {
-            "_id": "645b716d4245c2900c28d704",
-            "name": "Maryanne Wolf",
-            "language": "Spanish"
-        },
-        "printLength": 256,
-        "publisher": "Deusto",
-        "__v": 0
+    "printLength": 277,
+    "publisher": "Harper",
+    "__v": 0
+  },
+  {
+    "_id": "645b64c3b4152c7d436ff799",
+    "title": "Lector, vuelve a casa: Como afecta a nuestro cerebro la lectura en pantallas",
+    "author": {
+      "_id": "645b716d4245c2900c28d704",
+      "name": "Maryanne Wolf",
+      "language": "Spanish"
     },
-    {
-        "_id": "645b737cad881df2094be606",
-        "title": "A Short History of Nearly Everything",
-        "author": {
-            "_id": "645b686350cb43df5708adba",
-            "name": "Bill Bryson",
-            "language": "English"
-        },
-        "printLength": 544,
-        "publisher": "Crown",
-        "__v": 0
+    "printLength": 256,
+    "publisher": "Deusto",
+    "__v": 0
+  },
+  {
+    "_id": "645b737cad881df2094be606",
+    "title": "A Short History of Nearly Everything",
+    "author": {
+      "_id": "645b686350cb43df5708adba",
+      "name": "Bill Bryson",
+      "language": "English"
     },
-    {
-        "_id": "645b7c06fc723ad15dc7c356",
-        "title": "The Right to Be Lazy",
-        "author": {
-            "_id": "645b7b99fc723ad15dc7c354",
-            "name": "Paul Lafargue",
-            "language": "English"
-        },
-        "printLength": 136,
-        "publisher": "NYRB Classics",
-        "__v": 0
-    }
+    "printLength": 544,
+    "publisher": "Crown",
+    "__v": 0
+  },
+  {
+    "_id": "645b7c06fc723ad15dc7c356",
+    "title": "The Right to Be Lazy",
+    "author": {
+      "_id": "645b7b99fc723ad15dc7c354",
+      "name": "Paul Lafargue",
+      "language": "English"
+    },
+    "printLength": 136,
+    "publisher": "NYRB Classics",
+    "__v": 0
+  },
+  {
+    "_id": "645b828d4bee69a64e720909",
+    "title": "The Right to Be Lazy",
+    "author": {
+      "_id": "645b7b99fc723ad15dc7c354",
+      "name": "Paul Lafargue",
+      "language": "English"
+    },
+    "printLength": 1883,
+    "publisher": "marxists.org",
+    "__v": 0
+  }
 ]
