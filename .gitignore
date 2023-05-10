@@ -1,4 +1,8 @@
 
+books.json
+booksrefauthors.json
+authors.json
+
 .env
 *.env
 
