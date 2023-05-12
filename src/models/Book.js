@@ -13,21 +13,17 @@ const bookSchema = new mongoose.Schema({
   },
   printLength: {
     type: Number,
-    min: [
-      10,
-      "The number of pages must be between 10 and 5000. Input: {VALUE}",
-    ],
-    max: [
-      5000,
-      "The number of pages must be between 10 and 5000. Input: {VALUE}",
-    ],
+    validate: {
+      validator: (inputValue) => {
+        return inputValue >= 10 && inputValue <= 5000;
+      },
+      message:
+        "The number of pages must be between 10 and 5000. Input value: {VALUE}",
+    },
   },
   publisher: {
     type: String,
     required: [true, "Publisher is required"],
-    enum: {
-      message: "{VALUE} Publisher not allowed.",
-    },
   },
 });
 
