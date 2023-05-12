@@ -26,7 +26,6 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: [true, "Publisher is required"],
     enum: {
-      values: ["Code house", "Alura"],
       message: "{VALUE} Publisher not allowed.",
     },
   },
