@@ -1,3 +1,4 @@
+import NotFound from "../errors/NotFound.js";
 import books from "../models/Book.js";
 
 class BookController {
@@ -7,8 +8,8 @@ class BookController {
       const booksResponse = await books.find().populate("author").exec();
       res.status(200).json(booksResponse);
     } catch (err) {
-      console.log("getBooks catch err: ", err);
       next(err);
+      // console.log("getBooks catch err: ", err);
     }
   };
 
@@ -24,15 +25,14 @@ class BookController {
       if (searchedBook !== null) {
         res.status(201).send(searchedBook);
       } else {
-        console.log("getBookById else err: ", err);
-
-        res.status(404).send({
-          message: `${err} Book identifier failed. Please check for valid id.`,
-        });
+        next(
+          new NotFound("Book identifier failed. Please check for valid id.")
+        );
+        // console.log("getBookById else err: ", err);
       }
     } catch (err) {
-      console.log("getBookById catch err: ", err);
       next(err);
+      // console.log("getBookById catch err: ", err);
     }
   };
 
@@ -43,8 +43,8 @@ class BookController {
       const newBook = await book.save();
       res.status(201).send(newBook.toJSON());
     } catch (err) {
-      console.log("createNewBook catch err: ", err);
       next(err);
+      // console.log("createNewBook catch err: ", err);
     }
   };
 
@@ -52,11 +52,19 @@ class BookController {
   static updateBook = async (req, res, next) => {
     try {
       const id = req.params.id;
-      await books.findByIdAndUpdate(id, { $set: req.body });
-      res.status(201).send({ message: `Book ${id} updated.` });
+
+      const bookToUpdate = await books.findByIdAndUpdate(id, {
+        $set: req.body,
+      });
+
+      if (bookToUpdate !== null) {
+        res.status(201).send({ message: `Book ${id} updated.` });
+      } else {
+        next(new NotFound("Book to update not found."));
+      }
     } catch (err) {
-      console.log("updateBook catch err: ", err);
       next(err);
+      // console.log("updateBook catch err: ", err);
     }
   };
 
@@ -64,11 +72,17 @@ class BookController {
   static deleteBook = async (req, res, next) => {
     try {
       const id = req.params.id;
-      await books.findByIdAndDelete(id);
-      res.status(200).send({ message: `Book deleted.` });
+
+      const bookToDelete = await books.findByIdAndDelete(id);
+
+      if (bookToDelete !== null) {
+        res.status(200).send({ message: `Book deleted.` });
+      } else {
+        next(new NotFound("Book to delete not found."));
+      }
     } catch (err) {
-      console.log("deleteBook catch err: ", err);
       next(err);
+      // console.log("deleteBook catch err: ", err);
     }
   };
 
@@ -80,17 +94,15 @@ class BookController {
       console.log("publisher", publisher);
       const booksByPublisher = await books.find(publisher).populate("author");
 
-      if (booksByPublisher !== null) {
+      if (booksByPublisher.length !== 0) {
+        // console.log("books by publisher: ", booksByPublisher.length);
         res.status(200).send(booksByPublisher);
       } else {
-        console.log("getBookByPublisher else err: ", err);
-        res.status(400).send({
-          message: `${err} Publisher identifier failed. Please check for valid id.`,
-        });
+        next(new NotFound("Publisher not found"));
       }
     } catch (err) {
-      console.log("getBookByPublisher catch err: ", err);
       next(err);
+      // console.log("getBookByPublisher catch err: ", err);
     }
   };
 }

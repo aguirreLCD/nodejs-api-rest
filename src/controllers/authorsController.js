@@ -1,3 +1,4 @@
+import NotFound from "../errors/NotFound.js";
 import authors from "../models/Author.js";
 
 class AuthorController {
@@ -7,8 +8,8 @@ class AuthorController {
       const authorsResponse = await authors.find();
       res.status(200).json(authorsResponse);
     } catch (err) {
-      console.log("getAuthors catch err: ", err);
       next(err);
+      // console.log("getAuthors catch err: ", err);
     }
   };
 
@@ -16,17 +17,18 @@ class AuthorController {
   static getAuthorkById = async (req, res, next) => {
     try {
       const id = req.params.id;
+
       const searchedAuthor = await authors.findById(id);
 
       if (searchedAuthor !== null) {
         res.status(200).send(searchedAuthor);
       } else {
-        console.log("getAuthorById else err: ", err);
-        res.status(404).send({ message: "Author not founded." });
+        next(new NotFound("Author id not found"));
+        // console.log("getAuthorById else err: ", err);
       }
     } catch (err) {
-      console.log("getAuthorById catch err: ", err);
       next(err);
+      // console.log("getAuthorById catch err: ", err);
     }
   };
 
@@ -37,8 +39,8 @@ class AuthorController {
       const newAuthor = await author.save();
       res.status(201).send(newAuthor.toJSON());
     } catch (err) {
-      console.log("createNewAuthor catch err: ", err);
       next(err);
+      // console.log("createNewAuthor catch err: ", err);
     }
   };
 
@@ -46,11 +48,19 @@ class AuthorController {
   static updateAuthor = async (req, res, next) => {
     try {
       const id = req.params.id;
-      await authors.findByIdAndUpdate(id, { $set: req.body });
-      res.status(201).send({ message: `Author ${id} updated.` });
+
+      const authorToUpdate = await authors.findByIdAndUpdate(id, {
+        $set: req.body,
+      });
+
+      if (authorToUpdate !== null) {
+        res.status(201).send({ message: `Author ${id} updated.` });
+      } else {
+        next(new NotFound("Author to update not found"));
+      }
     } catch (err) {
-      console.log("updateAuthor catch err: ", err);
       next(err);
+      // console.log("updateAuthor catch err: ", err);
     }
   };
 
@@ -58,11 +68,17 @@ class AuthorController {
   static deleteAuthor = async (req, res, next) => {
     try {
       const id = req.params.id;
-      await authors.findByIdAndDelete(id);
-      res.status(201).send({ message: `Author deleted.` });
+
+      const authorToDelete = await authors.findByIdAndDelete(id);
+
+      if (authorToDelete !== null) {
+        res.status(201).send({ message: `Author deleted.` });
+      } else {
+        next(new NotFound("Author to delete not found."));
+      }
     } catch (err) {
-      console.log("deleteAuthor catch err: ", err);
       next(err);
+      // console.log("deleteAuthor catch err: ", err);
     }
   };
 }
