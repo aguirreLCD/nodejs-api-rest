@@ -24,11 +24,9 @@ class AuthorController {
         res.status(200).send(searchedAuthor);
       } else {
         next(new NotFound("Author id not found"));
-        // console.log("getAuthorById else err: ", err);
       }
     } catch (err) {
       next(err);
-      // console.log("getAuthorById catch err: ", err);
     }
   };
 
@@ -40,7 +38,6 @@ class AuthorController {
       res.status(201).send(newAuthor.toJSON());
     } catch (err) {
       next(err);
-      // console.log("createNewAuthor catch err: ", err);
     }
   };
 
@@ -60,7 +57,6 @@ class AuthorController {
       }
     } catch (err) {
       next(err);
-      // console.log("updateAuthor catch err: ", err);
     }
   };
 
@@ -78,7 +74,6 @@ class AuthorController {
       }
     } catch (err) {
       next(err);
-      // console.log("deleteAuthor catch err: ", err);
     }
   };
 }

@@ -5,11 +5,10 @@ class BookController {
   // list books
   static getBooks = async (req, res, next) => {
     try {
-      const booksResponse = await books.find().populate("author").exec();
+      const booksResponse = await books.find();
       res.status(200).json(booksResponse);
     } catch (err) {
       next(err);
-      // console.log("getBooks catch err: ", err);
     }
   };
 
@@ -17,22 +16,16 @@ class BookController {
   static getBookById = async (req, res, next) => {
     const id = req.params.id;
     try {
-      const searchedBook = await books
-        .findById(id)
-        .populate("author", "name")
-        .exec();
+      const searchedBook = await books.findById(id);
 
       if (searchedBook !== null) {
         res.status(201).send(searchedBook);
-      } else {
         next(
           new NotFound("Book identifier failed. Please check for valid id.")
         );
-        // console.log("getBookById else err: ", err);
       }
     } catch (err) {
       next(err);
-      // console.log("getBookById catch err: ", err);
     }
   };
 
@@ -44,7 +37,6 @@ class BookController {
       res.status(201).send(newBook.toJSON());
     } catch (err) {
       next(err);
-      // console.log("createNewBook catch err: ", err);
     }
   };
 
@@ -64,7 +56,6 @@ class BookController {
       }
     } catch (err) {
       next(err);
-      // console.log("updateBook catch err: ", err);
     }
   };
 
@@ -82,7 +73,6 @@ class BookController {
       }
     } catch (err) {
       next(err);
-      // console.log("deleteBook catch err: ", err);
     }
   };
 
@@ -90,17 +80,12 @@ class BookController {
   static getBookByFilter = async (req, res, next) => {
     try {
       const searchForBook = await handleSearch(req.query);
-      console.log("authorName::: ", req.query.authorName);
 
       if (searchForBook !== null) {
-        const booksByFilter = await books
-          .find(searchForBook)
-          .populate("author");
-        console.log("books by filter: ", booksByFilter);
+        const booksByFilter = await books.find(searchForBook);
         res.status(200).send(booksByFilter);
       } else {
-        // res.status(200).send([]);
-        next(new NotFound("Author not found"));
+        res.status(200).send([]);
       }
     } catch (err) {
       next(err);
@@ -129,15 +114,12 @@ async function handleSearch(params) {
 
   if (authorName) {
     const author = await authors.findOne({ name: authorName });
-
-    console.log("author if ", author);
-    console.log("authorName if ", authorName);
-
+    console.log("author const inside handleSearch", author);
+    console.log("author const inside handleSearch", author._id);
+    console.log("author const inside handleSearch", author.name);
+    console.log("author const inside handleSearch", author.language);
     if (author !== null) {
-      const authorId = author._id;
-      console.log("authorId ", authorId);
-
-      searchForBook.author = authorId;
+      searchForBook.author = author._id;
     } else {
       searchForBook = null;
     }
