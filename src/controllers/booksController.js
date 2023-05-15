@@ -97,7 +97,7 @@ class BookController {
       const searchForBook = {};
 
       if (publisher) searchForBook.publisher = publisher;
-      // using mongoose operators
+      // using mongoDB operators
       if (title) searchForBook.title = { $regex: title, $options: "i" };
 
       const booksByFilter = await books.find(searchForBook).populate("author");
