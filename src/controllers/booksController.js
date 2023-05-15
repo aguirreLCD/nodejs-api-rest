@@ -89,16 +89,7 @@ class BookController {
   // refactoring to get books list by Filter
   static getBookByFilter = async (req, res, next) => {
     try {
-      const { publisher, title } = req.query;
-
-      // using js
-      // const regex = new RegExp(title, "i");
-
-      const searchForBook = {};
-
-      if (publisher) searchForBook.publisher = publisher;
-      // using mongoDB search operator
-      if (title) searchForBook.title = { $regex: title, $options: "i" };
+      const searchForBook = handleSearch(req.query);
 
       const booksByFilter = await books.find(searchForBook).populate("author");
 
@@ -111,6 +102,28 @@ class BookController {
       next(err);
     }
   };
+}
+
+function handleSearch(params) {
+  const { publisher, title, minPages, maxPages } = params;
+
+  const searchForBook = {};
+
+  if (publisher) searchForBook.publisher = publisher;
+
+  if (title) searchForBook.title = { $regex: title, $options: "i" };
+
+  if (minPages || maxPages) searchForBook.printLength = {};
+
+  // gte = greater than or equal to
+  // if (minPages) searchForBook.printLength = { $gte: minPages };
+  if (minPages) searchForBook.printLength.$gte = minPages;
+
+  // lte = less than or equal to
+  // if (maxPages) searchForBook.printLength = { $lte: maxPages };
+  if (maxPages) searchForBook.printLength.$lte = maxPages;
+
+  return searchForBook;
 }
 
 export default BookController;
