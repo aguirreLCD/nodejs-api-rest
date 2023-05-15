@@ -1,5 +1,5 @@
 import NotFound from "../errors/NotFound.js";
-import { books } from "../models/index.js";
+import { authors, books } from "../models/index.js";
 
 class BookController {
   // list books
@@ -89,14 +89,18 @@ class BookController {
   // refactoring to get books list by Filter
   static getBookByFilter = async (req, res, next) => {
     try {
-      const searchForBook = handleSearch(req.query);
+      const searchForBook = await handleSearch(req.query);
+      console.log("authorName::: ", req.query.authorName);
 
-      const booksByFilter = await books.find(searchForBook).populate("author");
-
-      if (booksByFilter.length !== 0) {
+      if (searchForBook !== null) {
+        const booksByFilter = await books
+          .find(searchForBook)
+          .populate("author");
+        console.log("books by filter: ", booksByFilter);
         res.status(200).send(booksByFilter);
       } else {
-        next(new NotFound("Book not found"));
+        // res.status(200).send([]);
+        next(new NotFound("Author not found"));
       }
     } catch (err) {
       next(err);
@@ -104,10 +108,10 @@ class BookController {
   };
 }
 
-function handleSearch(params) {
-  const { publisher, title, minPages, maxPages } = params;
+async function handleSearch(params) {
+  const { publisher, title, minPages, maxPages, authorName } = params;
 
-  const searchForBook = {};
+  let searchForBook = {};
 
   if (publisher) searchForBook.publisher = publisher;
 
@@ -122,6 +126,22 @@ function handleSearch(params) {
   // lte = less than or equal to
   // if (maxPages) searchForBook.printLength = { $lte: maxPages };
   if (maxPages) searchForBook.printLength.$lte = maxPages;
+
+  if (authorName) {
+    const author = await authors.findOne({ name: authorName });
+
+    console.log("author if ", author);
+    console.log("authorName if ", authorName);
+
+    if (author !== null) {
+      const authorId = author._id;
+      console.log("authorId ", authorId);
+
+      searchForBook.author = authorId;
+    } else {
+      searchForBook = null;
+    }
+  }
 
   return searchForBook;
 }
