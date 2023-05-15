@@ -86,23 +86,29 @@ class BookController {
     }
   };
 
-  // list books by Publisher
-  static getBookByPublisher = async (req, res, next) => {
+  // refactoring to get books list by Filter
+  static getBookByFilter = async (req, res, next) => {
     try {
-      const publisher = req.query;
-      console.log("query", req.query);
-      console.log("publisher", publisher);
-      const booksByPublisher = await books.find(publisher).populate("author");
+      const { publisher, title } = req.query;
 
-      if (booksByPublisher.length !== 0) {
-        // console.log("books by publisher: ", booksByPublisher.length);
-        res.status(200).send(booksByPublisher);
+      // using js
+      // const regex = new RegExp(title, "i");
+
+      const searchForBook = {};
+
+      if (publisher) searchForBook.publisher = publisher;
+      // using mongoose operators
+      if (title) searchForBook.title = { $regex: title, $options: "i" };
+
+      const booksByFilter = await books.find(searchForBook).populate("author");
+
+      if (booksByFilter.length !== 0) {
+        res.status(200).send(booksByFilter);
       } else {
-        next(new NotFound("Publisher not found"));
+        next(new NotFound("Book not found"));
       }
     } catch (err) {
       next(err);
-      // console.log("getBookByPublisher catch err: ", err);
     }
   };
 }
