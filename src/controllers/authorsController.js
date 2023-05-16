@@ -9,7 +9,6 @@ class AuthorController {
       res.status(200).json(authorsResponse);
     } catch (err) {
       next(err);
-      // console.log("getAuthors catch err: ", err);
     }
   };
 
@@ -51,7 +50,7 @@ class AuthorController {
       });
 
       if (authorToUpdate !== null) {
-        res.status(201).send({ message: `Author ${id} updated.` });
+        res.status(200).send({ message: `Author ${id} updated.` });
       } else {
         next(new NotFound("Author to update not found"));
       }
@@ -68,7 +67,7 @@ class AuthorController {
       const authorToDelete = await authors.findByIdAndDelete(id);
 
       if (authorToDelete !== null) {
-        res.status(201).send({ message: `Author deleted.` });
+        res.status(200).send({ message: `Author deleted.` });
       } else {
         next(new NotFound("Author to delete not found."));
       }
