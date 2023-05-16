@@ -6,18 +6,23 @@ class BookController {
   // list books - add pagination
   static getBooks = async (req, res, next) => {
     try {
-      const { limit = 5, page = 1 } = req.query;
+      let { limit = 5, page = 1, arrangement = "_id:-1" } = req.query;
+
+      let [sortedBy, order] = arrangement.split(":");
+
       limit = parseInt(limit);
       page = parseInt(page);
+      order = parseInt(order);
 
       if (limit > 0 && page > 0) {
         const booksResponse = await books
           .find()
+          .sort({ [sortedBy]: order })
           .skip((page - 1) * limit)
           .limit(limit);
         res.status(200).json(booksResponse);
       } else {
-        next(new InvalidRequest("Not enough books"));
+        next(new InvalidRequest());
       }
     } catch (err) {
       next(err);
