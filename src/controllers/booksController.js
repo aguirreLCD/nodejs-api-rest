@@ -1,4 +1,3 @@
-import InvalidRequest from "../errors/InvalidRequest.js";
 import NotFound from "../errors/NotFound.js";
 import { authors, books } from "../models/index.js";
 
@@ -6,24 +5,14 @@ class BookController {
   // list books - add pagination
   static getBooks = async (req, res, next) => {
     try {
-      let { limit = 5, page = 1, arrangement = "_id:-1" } = req.query;
+      // save this to send to middleware to do pagination and sort
+      const booksResults = books.find();
 
-      let [sortedBy, order] = arrangement.split(":");
+      // send to middleware to do pagination and sort
+      req.results = booksResults;
 
-      limit = parseInt(limit);
-      page = parseInt(page);
-      order = parseInt(order);
-
-      if (limit > 0 && page > 0) {
-        const booksResponse = await books
-          .find()
-          .sort({ [sortedBy]: order })
-          .skip((page - 1) * limit)
-          .limit(limit);
-        res.status(200).json(booksResponse);
-      } else {
-        next(new InvalidRequest());
-      }
+      // next to execute next middleware
+      next();
     } catch (err) {
       next(err);
     }
@@ -97,13 +86,13 @@ class BookController {
   static getBookByFilter = async (req, res, next) => {
     try {
       const searchForBook = await handleSearch(req.query);
-      // console.log("searchForBook inside getBookByFilter", searchForBook);
 
       if (searchForBook !== null) {
-        const booksByFilter = await books.find(searchForBook);
-        // console.log("booksByFilter inside getBookByFilter", booksByFilter);
+        const booksByFilterResults = books.find(searchForBook);
 
-        res.status(200).send(booksByFilter);
+        req.results = booksByFilterResults;
+
+        next();
       } else {
         res.status(200).send([]);
       }
